@@ -67,13 +67,24 @@ class ViewController: UIViewController {
     
     
     let halloweenThemeEmojis = ["🎃","👻","🐤","🐝","🦉","🕷"]
+    let faceThemeEmojis = ["😎","🥶","😡","😂","🤪","😈"]
+    var themes = [[String]]()
     
     var emoji = [Int:String]()
     lazy var emojiChoices = [String](resetEmojis())
     
     func resetEmojis() -> [String]{
-        //TODO Pick random theme
-        return halloweenThemeEmojis
+        //Starting a new game with a new random theme
+        
+        themes.removeAll()
+        themes.append(halloweenThemeEmojis)
+        themes.append(faceThemeEmojis)
+        
+        let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
+        let randomTheme = themes[randomIndex]
+        
+        return randomTheme
+        
     }
     
     
