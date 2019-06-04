@@ -14,16 +14,38 @@ class Concentration {
     var indexOfOneAndOnlyFaceUpCard: Int?
     
     var flipCount = 0
+    var score = 0
     
     func chooseCard(at index: Int) {
+
         if !cards[index].isMatched{
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
                 //check for match
                 if cards[matchIndex].identifier == cards[index].identifier {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
-                    
+                    score += 2
                 }
+                
+                else{
+                    //Decreasing score
+                    if cards[index].involvedInMismatchBefore || cards[matchIndex].involvedInMismatchBefore {
+                        score -= 1
+                    }
+                    
+                    
+                    for pairIdentifier in cards.indices{
+                        if cards[pairIdentifier].identifier == cards[index].identifier {
+                            cards[pairIdentifier].involvedInMismatchBefore = true
+                        }
+                        
+                        if cards[pairIdentifier].identifier == cards[matchIndex].identifier{
+                            cards[pairIdentifier].involvedInMismatchBefore = true
+                        }
+                    }
+                
+                }
+
                 cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUpCard = nil
             }
@@ -39,6 +61,7 @@ class Concentration {
         }
     }
     
+    var pairsOfCards = [Int:[Card]]()
     init(numberOfPairsOfCards: Int) {
         for _ in 0..<numberOfPairsOfCards {
             

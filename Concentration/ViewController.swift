@@ -23,7 +23,8 @@ class ViewController: UIViewController {
     
     @IBOutlet var cardButtons: [UIButton]!
     
-
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     @IBAction func resetDisplay(_ sender: UIButton) {
        
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
@@ -51,6 +52,8 @@ class ViewController: UIViewController {
     
     func updateViewFromModel() {
         flipCountLabel.text = "Flips: \(game.flipCount)"
+        scoreLabel.text = "Score: \(game.score)"
+        
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -68,6 +71,8 @@ class ViewController: UIViewController {
     
     let halloweenThemeEmojis = ["🎃","👻","🐤","🐝","🦉","🕷"]
     let faceThemeEmojis = ["😎","🥶","😡","😂","🤪","😈"]
+    let animalsThemeEmojis = ["🐼","🐶","🐰","🙉","🐆","🐏"]
+    
     var themes = [[String]]()
     
     var emoji = [Int:String]()
@@ -79,6 +84,7 @@ class ViewController: UIViewController {
         themes.removeAll()
         themes.append(halloweenThemeEmojis)
         themes.append(faceThemeEmojis)
+        themes.append(animalsThemeEmojis)
         
         let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
         let randomTheme = themes[randomIndex]
