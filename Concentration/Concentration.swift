@@ -32,7 +32,10 @@ class Concentration {
                     cards[matchIndex].involvedInMismatchBefore = true
                     
                     //Decreasing score
-                    if (cards[index].involvedInMismatchBefore && cards[index].isTwinMismatched ) || (cards[matchIndex].involvedInMismatchBefore && cards[matchIndex].isTwinMismatched ) {
+                    if cards[index].involvedInMismatchBefore && cards[index].isTwinMismatched  {
+                        score -= 1
+                    }
+                    if  cards[matchIndex].involvedInMismatchBefore && cards[matchIndex].isTwinMismatched {
                         score -= 1
                     }
                     cards[index].involvedInMismatchBefore = true
