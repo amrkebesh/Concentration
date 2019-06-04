@@ -12,13 +12,13 @@ class ViewController: UIViewController {
 
     
     lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
-    
+  /*
     var flipCount = 0 {
         didSet {
             flipCountLabel.text = "Flips: \(flipCount)"
         }
     }
-    
+ */
     @IBOutlet weak var flipCountLabel: UILabel!
     
     @IBOutlet var cardButtons: [UIButton]!
@@ -28,7 +28,6 @@ class ViewController: UIViewController {
        
         game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
         emojiChoices = resetEmojis()
-        flipCount = 0
         updateViewFromModel()
         
         //Moving between StoryBoards
@@ -42,7 +41,7 @@ class ViewController: UIViewController {
     
     
     @IBAction func touchCard(_ sender: UIButton) {
-        flipCount += 1
+        
         if let cardNumber = cardButtons.firstIndex(of: sender) {
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
@@ -51,6 +50,7 @@ class ViewController: UIViewController {
     }
     
     func updateViewFromModel() {
+        flipCountLabel.text = "Flips: \(game.flipCount)"
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
