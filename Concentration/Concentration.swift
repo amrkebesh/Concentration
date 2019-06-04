@@ -28,19 +28,22 @@ class Concentration {
                 }
                 
                 else{
+                    
+                    cards[matchIndex].involvedInMismatchBefore = true
+                    
                     //Decreasing score
-                    if cards[index].involvedInMismatchBefore || cards[matchIndex].involvedInMismatchBefore {
+                    if (cards[index].involvedInMismatchBefore && cards[index].isTwinMismatched ) || (cards[matchIndex].involvedInMismatchBefore && cards[matchIndex].isTwinMismatched ) {
                         score -= 1
                     }
-                    
+                    cards[index].involvedInMismatchBefore = true
                     
                     for pairIdentifier in cards.indices{
                         if cards[pairIdentifier].identifier == cards[index].identifier {
-                            cards[pairIdentifier].involvedInMismatchBefore = true
+                            cards[pairIdentifier].isTwinMismatched = true
                         }
                         
                         if cards[pairIdentifier].identifier == cards[matchIndex].identifier{
-                            cards[pairIdentifier].involvedInMismatchBefore = true
+                            cards[pairIdentifier].isTwinMismatched = true
                         }
                     }
                 
