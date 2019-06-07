@@ -11,7 +11,10 @@ import UIKit
 class ViewController: UIViewController {
 
     
-    lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+    private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    var numberOfPairsOfCards: Int {
+            return ((cardButtons.count + 1) / 2)
+    }
   /*
     var flipCount = 0 {
         didSet {
@@ -19,11 +22,11 @@ class ViewController: UIViewController {
         }
     }
  */
-    @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet private weak var flipCountLabel: UILabel!
     
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private var cardButtons: [UIButton]!
     
-    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet private weak var scoreLabel: UILabel!
     
     @IBAction func resetDisplay(_ sender: UIButton) {
        
@@ -37,7 +40,6 @@ class ViewController: UIViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ViewController")as UIViewController
         present(vc,animated: false, completion: nil)
         */
-        print("Reset")
     }
     
     
@@ -69,14 +71,14 @@ class ViewController: UIViewController {
     }
     
     
-    let halloweenThemeEmojis = ["🎃","👻","🐤","🐝","🦉","🕷"]
-    let faceThemeEmojis = ["😎","🥶","😡","😂","🤪","😈"]
-    let animalsThemeEmojis = ["🐼","🐶","🐰","🙉","🐆","🐏"]
+    private let halloweenThemeEmojis = ["🎃","👻","🐤","🐝","🦉","🕷"]
+    private let faceThemeEmojis = ["😎","🥶","😡","😂","🤪","😈"]
+    private let animalsThemeEmojis = ["🐼","🐶","🐰","🙉","🐆","🐏"]
     
-    var themes = [[String]]()
+    private var themes = [[String]]()
     
-    var emoji = [Int:String]()
-    lazy var emojiChoices = [String](resetEmojis())
+    private var emoji = [Int:String]()
+    lazy private var emojiChoices = [String](resetEmojis())
     
     func resetEmojis() -> [String]{
         //Starting a new game with a new random theme
@@ -86,22 +88,33 @@ class ViewController: UIViewController {
         themes.append(faceThemeEmojis)
         themes.append(animalsThemeEmojis)
         
-        let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
-        let randomTheme = themes[randomIndex]
+        let randomTheme = themes[themes.count.arc4random]
         
         return randomTheme
         
     }
     
     
-    func emoji(for card: Card) -> String {
+    private func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil , emojiChoices.count > 0{
             
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-            emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)
         }
         return emoji[card.identifier] ?? "?"
     }
     
 }
 
+extension Int {
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        }
+        else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(self)))
+        }
+        else {
+            return 0
+        }
+    }
+}
